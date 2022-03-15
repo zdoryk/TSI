@@ -14,8 +14,13 @@ class Swarm:
         # self.V_max_velocity = (self.X_max_position - self.X_min_position) * 0.05
         # self.V_min_velocity = -(self.X_max_position - self.X_min_position) * 0.05
 
-        self.V_max_velocity = (x_max[0] - x_min[0]) * 0.05
-        self.V_min_velocity = -self.V_max_velocity
+        self.V_max_velocity = Particle.np.zeros(len(x_min))
+        self.V_min_velocity = Particle.np.zeros(len(x_min))
+
+        for i in range(len(x_min)):
+            self.V_max_velocity[i] = (self.X_max_position[i] - self.X_min_position[i]) * 0.05
+            self.V_min_velocity[i] = -self.V_max_velocity[i]
+
         self.fitness_function = fitness_function
 
         # Инициализировать население
@@ -25,6 +30,7 @@ class Swarm:
         # Получите самую лучшую общую информацию
         self.G_best = Particle.np.zeros(len(x_min))
         self.G_best_fitness = float('Inf')
+        self.init_g_best()
 
         self.fitness_list = []  # Каждый раз лучшее значение фитнеса
 
@@ -41,5 +47,6 @@ class Swarm:
                 if part.get_best_fitness() < self.G_best_fitness:
                     self.G_best_fitness = part.get_best_fitness()
                     self.G_best = part.get_p_best()
+                    print('G:', self.G_best)
             self.fitness_list.append(self.G_best)
         return self.fitness_list, self.G_best
