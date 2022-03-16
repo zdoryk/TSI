@@ -56,10 +56,19 @@ class DEvolution:
             #     print("New global best fitness: ", self.G_best_fitness)
             print("global best fitness: ", self.G_best_fitness)
 
+    def __run_algorithm(self):
+        for j in range(len(self.individuals)):
+            trial = self.__crossover(self.__check_bounds(self.__mutation(j)), self.individuals[j])
+            self.__selection(trial, j)
+
     def run_iterations(self, iterations):
         for i in range(iterations):
-            for j in range(len(self.individuals)):
-                trial = self.__crossover(self.__check_bounds(self.__mutation(j)), self.individuals[j])
-                self.__selection(trial, j)
-
+            self.__run_algorithm()
         return self.all_best_fitness, self.G_best_fitness
+
+    def run_accuracy(self, accuracy=0.0001):
+        counter = 0
+        while accuracy < self.G_best_fitness:
+            self.__run_algorithm()
+            counter += 1
+        return self.all_best_fitness, self.G_best_fitness, counter

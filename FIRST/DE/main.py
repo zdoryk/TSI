@@ -11,11 +11,15 @@ cr = 0.5
 accuracy = 0.0001
 
 de = DEvolution(population, min_x, max_x, circle, f=f, cr=cr)
-all_best_fitness, G_best_fitness = de.run_iterations(iterations)
+# all_best_fitness, G_best_fitness = de.run_iterations(iterations)
+# print('_'*40, '\n')
+# print(f'best_pos: {G_best_fitness}')
+
+all_best_fitness, G_best_fitness, counter = de.run_accuracy(accuracy)
+print('_'*40, '\n')
 print(f'best_pos: {G_best_fitness}')
-# fit_list, best_pos, counter = de.run_accuracy(accuracy)
-# print('counter: ', counter)
+print('counter: ', counter)
 
 
 if __name__ == '__main__':
-    print('main')
+    print('_'*40)
