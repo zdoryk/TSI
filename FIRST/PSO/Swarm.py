@@ -2,14 +2,13 @@ import Particle
 
 
 class Swarm:
-    def __init__(self, population, iteration, x_min, x_max, fitness_function, c1=2, c2=2, w=0.9):
+    def __init__(self, population, x_min, x_max, fitness_function, c1=2, c2=2, w=0.9):
         self.c1 = c1
         self.c2 = c2
         self.w = w
         self.population = population
         self.X_min_position = Particle.np.array(x_min)
         self.X_max_position = Particle.np.array(x_max)
-        self.iteration = iteration
 
         # Initializing min and max velocities
         self.V_max_velocity = (self.X_max_position - self.X_min_position) * 0.0005
@@ -36,8 +35,8 @@ class Swarm:
                 self.G_best = p.get_p_best()
 
     # run this method if user has selected PSO by accuracy
-    def run_iterations(self):
-        for i in range(self.iteration):
+    def run_iterations(self, iterations):
+        for i in range(iterations):
             self.__update_g_best()
         return self.fitness_list, self.G_best
 

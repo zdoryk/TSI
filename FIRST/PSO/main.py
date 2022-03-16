@@ -9,9 +9,9 @@ max_x = [100.0] * 20
 weight = 0.9
 accuracy = 0.0001
 
-swarm = Swarm(population, iterations, min_x, max_x, circle, w=weight)
+swarm = Swarm(population, min_x, max_x, circle, w=weight)
 
-# fit_list, best_pos = swarm.run_iterations()
+# fit_list, best_pos = swarm.run_iterations(iterations)
 # print(f'best_pos: {best_pos}')
 fit_list, best_pos, counter = swarm.run_accuracy(accuracy)
 print('counter: ', counter)
