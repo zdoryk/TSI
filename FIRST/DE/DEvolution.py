@@ -5,8 +5,6 @@ import numpy as np
 class DEvolution:
     def __init__(self, population: int, min_x: [], max_x: [], fitness_function, f=0.5, cr=0.5):
         self.population = population
-        # self.X_min_position = Individual.np.array(min_x)
-        # self.X_max_position = Individual.np.array(max_x)
         self.X_min_position = np.array(min_x)
         self.X_max_position = np.array(max_x)
         self.F = f
@@ -14,9 +12,6 @@ class DEvolution:
         self.number_of_dimensions = len(min_x)
 
         self.fitness_function = fitness_function
-        # Initializing population
-        # self.individuals = [Individual.Individual(self.X_min_position, self.X_max_position,
-        #                                           fitness_function) for i in range(population)]
         self.individuals = [np.array([np.random.uniform(1, 10) for x in range(self.number_of_dimensions)])
                             for x in range(population)]
 
@@ -25,9 +20,6 @@ class DEvolution:
 
     def __choose_candidate(self, selected_ind):
         candidates_numbers = [candidate for candidate in range(self.population) if candidate != selected_ind]
-        # for individual in self.individuals:
-            # print(type(individual))
-            # print(individual)
         return [self.individuals[candidate] for candidate in candidates_numbers]
 
     def __mutation(self, selected_ind):
@@ -35,7 +27,6 @@ class DEvolution:
         return candidates[0] + self.F * (candidates[1] - candidates[2])
 
     def __check_bounds(self, positions):
-        # return [Individual.np.clip(positions[i], self.X_min_position[i], self.X_max_position[i]) for i in range(self.number_of_dimensions)]
         return [np.clip(positions[i], self.X_min_position[i], self.X_max_position[i]) for i in range(self.number_of_dimensions)]
 
     def __crossover(self, mutated, parent):
@@ -53,7 +44,6 @@ class DEvolution:
 
     def run_iterations(self, iterations):
         for i in range(iterations):
-            # for individual in self.individuals:
             for j in range(len(self.individuals)):
                 trial = self.__crossover(self.__check_bounds(self.__mutation(j)), self.individuals[j])
                 self.__fitness(trial, j)
