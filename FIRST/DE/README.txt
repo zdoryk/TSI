@@ -1,1 +1,1 @@
-Add bounds after mutation in DEvolution class.
+Program is working, now we need to focus on accuracy.
