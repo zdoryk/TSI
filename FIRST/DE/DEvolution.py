@@ -54,7 +54,8 @@ class DEvolution:
             # if self.G_best_fitness > trial_fitness:
             #     self.G_best_fitness = trial_fitness
             #     print("New global best fitness: ", self.G_best_fitness)
-            print("global best fitness: ", self.G_best_fitness)
+            # ------------------------------------------------------------!!!!!!!!!!!!
+            # print("global best fitness: ", self.G_best_fitness)
 
     def __run_algorithm(self):
         for j in range(len(self.individuals)):
@@ -64,11 +65,13 @@ class DEvolution:
     def run_iterations(self, iterations):
         for i in range(iterations):
             self.__run_algorithm()
-        return self.all_best_fitness, self.G_best_fitness
+        # return self.all_best_fitness, self.G_best_fitness
+        return self.G_best_fitness
 
     def run_accuracy(self, accuracy=0.0001):
         counter = 0
         while accuracy < self.G_best_fitness:
             self.__run_algorithm()
             counter += 1
-        return self.all_best_fitness, self.G_best_fitness, counter
+        # return self.all_best_fitness, self.G_best_fitness, counter
+        return self.G_best_fitness, counter
