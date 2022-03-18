@@ -1,17 +1,17 @@
 from Swarm import Swarm
-from fitness_functions import sphere, f2, rosenbrock, rastrigin, griewank, ackley, brown, schwefel, easom
+from fitness_functions import sphere, f2, rosenbrock, rastrigin, griewank, ackley, brown, schwefel, easom, zakharov
 
 # constrains
 population = 30
 iterations = 1500
-min_x = [-100.0] * 2
-max_x = [100.0] * 2
+min_x = [-10.0] * 20
+max_x = [10.0] * 20
 weight = 0.9
 c1 = 2
 c2 = 2
-accuracy = 0.0001
+accuracy = 0.001
 
-swarm = Swarm(population, min_x, max_x, easom, c1=c1, c2=c2, w=weight)
+swarm = Swarm(population, min_x, max_x, sphere, c1=c1, c2=c2, w=weight)
 # fit_list, best_pos = swarm.run_iterations(iterations)
 # print('_'*40, '\n')
 # print(f'best_pos: {best_pos}')

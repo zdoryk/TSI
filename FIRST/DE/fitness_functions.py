@@ -7,19 +7,10 @@ def sphere(x_positions):
 
 def f2(x_positions):
     return ((x_positions - np.arange(len(x_positions)))**2).sum()
-    # x = []
-    # for i in range(len(x_positions)):
-    #     x.append((x_positions[i] - i) ** 2)
-    # return np.array(x).sum()
 
 
 def rosenbrock(x_positions):
     return (100 * (x_positions[1::] - x_positions[:-1] ** 2)**2 + (x_positions[:-1] - 1)**2).sum()
-    # x = []
-    # for i in range(len(x_positions) - 1):
-    #     x.append(100*(x_positions[i+1] - x_positions[i]**2)**2 + (x_positions[i]-1)**2)
-    #
-    # return np.array(x).sum()
 
 
 def rastrigin(x_positions):
@@ -46,3 +37,35 @@ def brown(x_positions):
 
 def schwefel(x_positions):
     return ((np.absolute(x_positions))**2).sum() + np.prod(x_positions)
+
+
+def zakharov(x_positions):
+    return -np.sum(x_positions) + (x_positions * np.arange(len(x_positions)) / 2).sum() ** 2 + (x_positions * np.arange(len(x_positions)) / 2).sum() ** 4
+
+
+def schaffersf6(x_positions):
+    return 0.5 + ((np.sin(np.sqrt(x_positions[0] ** 2 + x_positions[1] ** 2))) ** 2 - 0.5) / ((1 + 0.001 * (x_positions[0] ** 2 + x_positions[1] ** 2)) ** 2)
+
+
+def leeyao_2004(x):
+    result = np.pi / len(x) * (10 * ((np.sin(np.pi * x[0])) ** 2)
+                               + (((x[:-1] - 1)**2) * (1 + 10 * ((np.sin(np.pi * x[1::]))**2))).sum()
+                               + (x - 1)**2) + _leeyao_u(x)
+    print(result)
+    return result
+
+
+def _leeyao_u(x_positions):
+    a, k, m = 10, 100, 4
+    result = []
+    for z in x_positions:
+        if z > a:
+            result.append(k * ((z - a) ** m))
+        elif -a <= z <= a:
+            result.append(0)
+        elif z < -a:
+            result.append(k * ((-z-a) ** m))
+    return np.array(result).sum()
+
+
+

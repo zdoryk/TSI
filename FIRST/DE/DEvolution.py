@@ -34,7 +34,8 @@ class DEvolution:
 
     # Step #2.1 Check if our result are between bounds
     def __check_bounds(self, positions):
-        return [np.clip(positions[i], self.X_min_position[i], self.X_max_position[i]) for i in range(self.number_of_dimensions)]
+        # return [np.clip(positions[i], self.X_min_position[i], self.X_max_position[i]) for i in range(self.number_of_dimensions)]
+        return np.clip(positions, self.X_min_position, self.X_max_position)
 
     # Step #3 Creating a trial individual with a crossover
     def __crossover(self, mutated, parent):
@@ -68,9 +69,9 @@ class DEvolution:
         # return self.all_best_fitness, self.G_best_fitness
         return self.G_best_fitness
 
-    def run_accuracy(self, accuracy=0.0001):
+    def run_accuracy(self, accuracy):
         counter = 0
-        while accuracy < self.G_best_fitness:
+        while accuracy < self.G_best_fitness and counter < 3000:
             self.__run_algorithm()
             counter += 1
         # return self.all_best_fitness, self.G_best_fitness, counter
