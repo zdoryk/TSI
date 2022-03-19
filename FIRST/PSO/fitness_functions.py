@@ -44,14 +44,14 @@ def zakharov(x_positions):
 
 
 def schaffersf6(x_positions):
-    return 0.5 + ((np.sin(np.sqrt(x_positions[0] ** 2 + x_positions[1] ** 2))) ** 2 - 0.5) / ((1 + 0.001 * (x_positions[0] ** 2 + x_positions[1] ** 2)) ** 2)
+    return 0.5 + ((np.sin(np.sqrt(x_positions[0] ** 2 + x_positions[1] ** 2))) ** 2 - 0.5) /\
+           ((1 + 0.001 * (x_positions[0] ** 2 + x_positions[1] ** 2)) ** 2)
 
 
 def leeyao_2004(x):
     result = np.pi / len(x) * (10 * ((np.sin(np.pi * x[0])) ** 2)
                                + (((x[:-1] - 1)**2) * (1 + 10 * ((np.sin(np.pi * x[1::]))**2))).sum()
                                + (x - 1)**2) + _leeyao_u(x)
-    print(result)
     return result
 
 

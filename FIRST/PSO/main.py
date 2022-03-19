@@ -16,9 +16,9 @@ swarm = Swarm(population, min_x, max_x, sphere, c1=c1, c2=c2, w=weight)
 # print('_'*40, '\n')
 # print(f'best_pos: {best_pos}')
 fit_list, best_pos, counter = swarm.run_accuracy(accuracy)
-print('_'*40, '\n')
-print('G_best:', f2(best_pos))
-print('counter: ', counter)
+# print('_'*40, '\n')
+# print('G_best:', f2(best_pos))
+# print('counter: ', counter)
 
 # print('G_best:', f2(best_pos))
 

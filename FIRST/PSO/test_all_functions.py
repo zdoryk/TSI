@@ -1,10 +1,11 @@
-from DEvolution import DEvolution
+from Swarm import Swarm
 from fitness_functions import sphere, f2, rosenbrock, griewank, rastrigin, ackley, brown, schwefel, easom, zakharov, schaffersf6, leeyao_2004
 
 dimensions = 20
 population = 20
-f = 0.5
-cr = 0.5
+C1 = 2
+C2 = 2
+W = 0.9
 
 de_presets = {
     'Sphere': {
@@ -88,14 +89,12 @@ for k, v in de_presets.items():
     reloads = 0
     G_best_fitness_reloads = 10000000
     best_counter = 0
-    G_best_fitness_iterations = DEvolution(population, v['min_x'], v['max_x'], v['function'], f=f, cr=cr).run_iterations(iterations)
-    G_best_fitness_accuracy, counter = DEvolution(population, v['min_x'], v['max_x'], v['function'], f=f, cr=cr).run_accuracy(v['accuracy'])
-    print(G_best_fitness_accuracy)
-    input()
+    _, G_best_fitness_iterations = Swarm(population, v['min_x'], v['max_x'], v['function'], C1, C2, W).run_iterations(iterations)
+    _, G_best_fitness_accuracy, counter = Swarm(population, v['min_x'], v['max_x'], v['function'], C1, C2, W).run_accuracy(v['accuracy'])
 
     while G_best_fitness_accuracy > v['accuracy'] and reloads < 10:
         reloads += 1
-        G_best_fitness_accuracy, counter = DEvolution(population, v['min_x'], v['max_x'], v['function'], f=f, cr=cr).run_accuracy(v['accuracy'])
+        _, G_best_fitness_accuracy, counter = Swarm(population, v['min_x'], v['max_x'], v['function'], C1, C2, W).run_accuracy(v['accuracy'])
         if G_best_fitness_accuracy < G_best_fitness_reloads:
             G_best_fitness_reloads = G_best_fitness_accuracy
             best_counter = counter

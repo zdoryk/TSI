@@ -38,15 +38,15 @@ class Swarm:
     def run_iterations(self, iterations):
         for i in range(iterations):
             self.__update_g_best()
-        return self.fitness_list, self.G_best
+        return self.fitness_list, self.G_best_fitness
 
     # run this method if user has selected PSO by accuracy
     def run_accuracy(self, accuracy=0.0001):
         counter = 0
-        while self.G_best_fitness > accuracy:
+        while self.G_best_fitness > accuracy and counter < 3000:
             self.__update_g_best()
             counter += 1
-        return self.fitness_list, self.G_best, counter
+        return self.fitness_list, self.G_best_fitness, counter
 
     # main method that update Global best value
     def __update_g_best(self):
@@ -56,5 +56,5 @@ class Swarm:
                 self.G_best_fitness = part.get_best_fitness()
                 self.G_best = part.get_p_best()
                 # print('G:', self.G_best)
-                print('G_F:', self.G_best_fitness)
+                # print('G_F:', self.G_best_fitness)
                 self.fitness_list.append(self.G_best)
