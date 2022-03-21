@@ -63,9 +63,18 @@ class DEvolution:
             trial = self.__crossover(self.__check_bounds(self.__mutation(j)), self.individuals[j])
             self.__selection(trial, j)
 
-    def run_iterations(self, iterations):
-        for i in range(iterations):
-            self.__run_algorithm()
+    def run_iterations(self, iterations, f_min=0.3, f_max=0.7, cr_min=0.7, cr_max=0.3, linear=False):
+        if linear:
+            f = np.flip(np.linspace(f_min, f_max, iterations))
+            cr = np.flip(np.linspace(cr_min, cr_max, iterations))
+            for i in range(iterations):
+                self.F = f[i]
+                self.CR = cr[i]
+                self.__run_algorithm()
+                # print(self.G_best_fitness)
+        else:
+            for i in range(iterations):
+                self.__run_algorithm()
         # return self.all_best_fitness, self.G_best_fitness
         return self.G_best_fitness
 
