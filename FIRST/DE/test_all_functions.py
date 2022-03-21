@@ -5,6 +5,8 @@ dimensions = 20
 population = 20
 f = 0.5
 cr = 0.5
+to_txt = ''
+log_counter = 0
 
 de_presets = {
     'Sphere': {
@@ -73,12 +75,12 @@ de_presets = {
         'max_x': [100.0] * 2,
         'function': schaffersf6,
     },
-    'LeeYao 2004': {
-        'accuracy': 0.01,
-        'min_x': [-10.0] * 20,
-        'max_x': [10.0] * 20,
-        'function': leeyao_2004,
-    }
+    # 'LeeYao 2004': {
+    #     'accuracy': 0.01,
+    #     'min_x': [-10.0] * 20,
+    #     'max_x': [10.0] * 20,
+    #     'function': leeyao_2004,
+    # }
 
 }
 
@@ -90,8 +92,6 @@ for k, v in de_presets.items():
     best_counter = 0
     G_best_fitness_iterations = DEvolution(population, v['min_x'], v['max_x'], v['function'], f=f, cr=cr).run_iterations(iterations)
     G_best_fitness_accuracy, counter = DEvolution(population, v['min_x'], v['max_x'], v['function'], f=f, cr=cr).run_accuracy(v['accuracy'])
-    print(G_best_fitness_accuracy)
-    input()
 
     while G_best_fitness_accuracy > v['accuracy'] and reloads < 10:
         reloads += 1
@@ -100,14 +100,21 @@ for k, v in de_presets.items():
             G_best_fitness_reloads = G_best_fitness_accuracy
             best_counter = counter
 
-    print('\n', '#' * 30, f'\t{k}\t ', '#' * 30, '\n')
-    print(f'### Iter ###\nBest_pos: {G_best_fitness_iterations}')
-    print('Iterations: ', iterations, '\n')
-    print(f'### Accuracy ###')
+    to_txt += '\n\n' + '#' * 30 + f'\t{k}\t ' + '#' * 30 + '\n\n'
+    to_txt += f'### Iter ###\nBest_pos: {G_best_fitness_iterations}'
+    to_txt += '\nIterations: ' + str(iterations) + '\n'
+    to_txt += f'\n### Accuracy ###\n'
     if reloads:
-        print(f'Best_pos: {G_best_fitness_reloads}')
-        print('counter: ', best_counter)
-        print('reloads: ', reloads)
+        to_txt += f'Best_pos: {G_best_fitness_reloads}'
+        to_txt += '\ncounter: ' + str(best_counter)
+        to_txt += '\nreloads: ' + str(reloads)
     else:
-        print(f'Best_pos: {G_best_fitness_accuracy}')
-        print('counter: ', counter)
+        to_txt += f'Best_pos: {G_best_fitness_accuracy}'
+        to_txt += '\ncounter: ' + str(counter)
+    log_counter += 1
+    print(f'{k}: Done [{log_counter}/{len(de_presets)}]')
+
+print(to_txt)
+
+with open('DE_results.txt', 'w') as file:
+    file.write(to_txt)

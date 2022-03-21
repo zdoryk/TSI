@@ -11,8 +11,8 @@ class Swarm:
         self.X_max_position = Particle.np.array(x_max)
 
         # Initializing min and max velocities
-        self.V_max_velocity = (self.X_max_position - self.X_min_position) / 200
-        self.V_min_velocity = -(self.X_max_position - self.X_min_position) / 200
+        self.V_max_velocity = (self.X_max_position - self.X_min_position) / 2000
+        self.V_min_velocity = -(self.X_max_position - self.X_min_position) / 2000
 
         self.fitness_function = fitness_function
 

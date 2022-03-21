@@ -36,7 +36,7 @@ def brown(x_positions):
 
 
 def schwefel(x_positions):
-    return ((np.absolute(x_positions))**2).sum() + np.prod(x_positions)
+    return ((np.absolute(x_positions))**2).sum() + np.prod(np.absolute(x_positions))
 
 
 def zakharov(x_positions):

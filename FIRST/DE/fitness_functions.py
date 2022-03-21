@@ -28,7 +28,7 @@ def ackley(x_positions):
 
 
 def easom(x_positions):
-    return -np.cos(x_positions[0]) * np.cos(x_positions[1]) * np.exp(-(x_positions[0] - np.pi)**2 - (x_positions[1] - np.pi)**2)
+    return -np.cos(x_positions[0]) * np.cos(x_positions[1]) * np.exp(-((x_positions[0] - np.pi)**2) - ((x_positions[1] - np.pi)**2))
 
 
 def brown(x_positions):
@@ -36,7 +36,7 @@ def brown(x_positions):
 
 
 def schwefel(x_positions):
-    return ((np.absolute(x_positions))**2).sum() + np.prod(x_positions)
+    return ((np.absolute(x_positions))**2).sum() + np.prod(np.absolute(x_positions))
 
 
 def zakharov(x_positions):
