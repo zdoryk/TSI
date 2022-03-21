@@ -21,6 +21,8 @@ class DEvolution:
         self.all_best_fitness = [fitness_function(individual) for individual in self.individuals]
         self.G_best_fitness = min(self.all_best_fitness)
 
+        self.fitness_list = [self.G_best_fitness]
+
     # Step #1 Choose 3 candidates
     def __choose_candidate(self, parent_nr):
         # candidates_numbers = [candidate for candidate in range(self.population) if candidate != parent_nr]
@@ -52,6 +54,7 @@ class DEvolution:
             self.individuals[parent_nr] = trial
             self.all_best_fitness[parent_nr] = trial_fitness
             self.G_best_fitness = min(self.all_best_fitness)
+            self.fitness_list.append(self.G_best_fitness)
             # if self.G_best_fitness > trial_fitness:
             #     self.G_best_fitness = trial_fitness
             #     print("New global best fitness: ", self.G_best_fitness)
@@ -76,7 +79,7 @@ class DEvolution:
             for i in range(iterations):
                 self.__run_algorithm()
         # return self.all_best_fitness, self.G_best_fitness
-        return self.G_best_fitness
+        return self.G_best_fitness, self.fitness_list
 
     def run_accuracy(self, accuracy):
         counter = 0
