@@ -21,6 +21,8 @@ class DEvolution:
         self.all_best_fitness = [fitness_function(individual) for individual in self.individuals]
         self.G_best_fitness = min(self.all_best_fitness)
 
+        self.fitness_list = [self.G_best_fitness]
+
     # Step #1 Choose 3 candidates
     def __choose_candidate(self, parent_nr):
         # candidates_numbers = [candidate for candidate in range(self.population) if candidate != parent_nr]
@@ -34,7 +36,8 @@ class DEvolution:
 
     # Step #2.1 Check if our result are between bounds
     def __check_bounds(self, positions):
-        return [np.clip(positions[i], self.X_min_position[i], self.X_max_position[i]) for i in range(self.number_of_dimensions)]
+        # return [np.clip(positions[i], self.X_min_position[i], self.X_max_position[i]) for i in range(self.number_of_dimensions)]
+        return np.clip(positions, self.X_min_position, self.X_max_position)
 
     # Step #3 Creating a trial individual with a crossover
     def __crossover(self, mutated, parent):
@@ -54,21 +57,41 @@ class DEvolution:
             # if self.G_best_fitness > trial_fitness:
             #     self.G_best_fitness = trial_fitness
             #     print("New global best fitness: ", self.G_best_fitness)
-            print("global best fitness: ", self.G_best_fitness)
+            # ------------------------------------------------------------!!!!!!!!!!!!
+            # print("global best fitness: ", self.G_best_fitness)
 
     def __run_algorithm(self):
         for j in range(len(self.individuals)):
             trial = self.__crossover(self.__check_bounds(self.__mutation(j)), self.individuals[j])
             self.__selection(trial, j)
 
-    def run_iterations(self, iterations):
-        for i in range(iterations):
-            self.__run_algorithm()
-        return self.all_best_fitness, self.G_best_fitness
+    def run_iterations(self, iterations, f_min=0.4, f_max=0.8, cr_min=0.3, cr_max=0.8, linear=False):
+        if linear:
+            # f = np.linspace(f_min, f_max, iterations)
+            # cr = np.linspace(cr_min, cr_max, iterations)
+            f1 = np.linspace(f_min, 0.6, 150)
+            f2 = np.linspace(0.6, f_max, iterations - 150)
+            f = np.concatenate((f1, f2))
+            cr1 = np.linspace(cr_min, 0.5, 150)
+            cr2 = np.linspace(0.5, cr_max, iterations - 150)
+            cr = np.concatenate((cr1, cr2))
+            for i in range(iterations):
+                self.F = f[i]
+                self.CR = cr[i]
+                self.__run_algorithm()
+                self.fitness_list.append(self.G_best_fitness)
+                # print(self.G_best_fitness)
+        else:
+            for i in range(iterations):
+                self.__run_algorithm()
+                self.fitness_list.append(self.G_best_fitness)
+                # return self.all_best_fitness, self.G_best_fitness
+        return self.G_best_fitness, self.fitness_list
 
-    def run_accuracy(self, accuracy=0.0001):
+    def run_accuracy(self, accuracy):
         counter = 0
-        while accuracy < self.G_best_fitness:
+        while accuracy < self.G_best_fitness and counter < 3000:
             self.__run_algorithm()
             counter += 1
-        return self.all_best_fitness, self.G_best_fitness, counter
+        # return self.all_best_fitness, self.G_best_fitness, counter
+        return self.G_best_fitness, counter

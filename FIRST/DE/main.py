@@ -1,21 +1,23 @@
 from DEvolution import DEvolution
-from fitness_functions import circle
+from fitness_functions import sphere, f2, rosenbrock, griewank, ackley, brown, schwefel, easom, zakharov, schaffersf6, leeyao_2004
 
 # constrains
-population = 30
-iterations = 300
-min_x = [-100.0] * 20
-max_x = [100.0] * 20
+population = 20
+# iterations = 500
+min_x = [-100] * 20
+max_x = [100] * 20
 f = 0.5
 cr = 0.5
-accuracy = 0.0001
+accuracy = 0.00001
 
-de = DEvolution(population, min_x, max_x, circle, f=f, cr=cr)
-# all_best_fitness, G_best_fitness = de.run_iterations(iterations)
-# print('_'*40, '\n')
-# print(f'best_pos: {G_best_fitness}')
+linear_fit_list = []
+usual_fit_list = []
+# counter = 0
+de_usual = DEvolution(population, min_x, max_x, f2, f=f, cr=cr)
+# G_best_usual_fitness = de_usual.run_iterations(iterations)
+# print(G_best_usual_fitness)
 
-all_best_fitness, G_best_fitness, counter = de.run_accuracy(accuracy)
+G_best_fitness, counter = de_usual.run_accuracy(accuracy)
 print('_'*40, '\n')
 print(f'best_pos: {G_best_fitness}')
 print('counter: ', counter)
