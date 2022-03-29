@@ -5,9 +5,9 @@ from fitness_functions import sphere, f2, rosenbrock, griewank, rastrigin, \
     brown, schwefel, zakharov, schaffersf6, np
 
 DIMENSIONS = 20
-POPULATION = 20
-C1 = 2
-C2 = 2
+POPULATION = 30
+C1 = 1.7
+C2 = 1.7
 W = 0.9
 
 PRESETS = {
@@ -16,58 +16,34 @@ PRESETS = {
         'min_x': [-100.0] * DIMENSIONS,
         'max_x': [100.0] * DIMENSIONS,
         'function': sphere,
-    }
-    # 'F2': {
-    #     'accuracy': 0.0001,
-    #     'min_x': [-100.0] * DIMENSIONS,
-    #     'max_x': [100.0] * DIMENSIONS,
-    #     'function': f2,
-    # },
-    # 'Rosenbrock': {
-    #     'accuracy': 30,
-    #     'min_x': [-2.048] * DIMENSIONS,
-    #     'max_x': [2.048] * DIMENSIONS,
-    #     'function': rosenbrock,
-    # },
-    # 'Griewank': {
-    #     'accuracy': 0.1,
-    #     'min_x': [-600.0] * DIMENSIONS,
-    #     'max_x': [600.0] * DIMENSIONS,
-    #     'function': griewank,
-    # },
-    # 'Rastrigin': {
-    #     'accuracy': 30,
-    #     'min_x': [-5.12] * DIMENSIONS,
-    #     'max_x': [5.12] * DIMENSIONS,
-    #     'function': rastrigin,
-    # },
-    # 'Brown': {
-    #     'accuracy': 0.001,
-    #     'min_x': [-1.0] * DIMENSIONS,
-    #     'max_x': [4.0] * DIMENSIONS,
-    #     'function': brown,
-    # },
-    # 'Schwefel': {
-    #     'accuracy': 0.000001,
-    #     'min_x': [-1.0] * DIMENSIONS,
-    #     'max_x': [4.0] * DIMENSIONS,
-    #     'function': schwefel,
-    # },
-    # 'Zakharov': {
-    #     'accuracy': 0.001,
-    #     'min_x': [-10.0] * DIMENSIONS,
-    #     'max_x': [10.0] * DIMENSIONS,
-    #     'function': zakharov,
-    # },
-    # "Schaffer'sf6": {
-    #     'accuracy': 0.00001,
-    #     'min_x': [-100.0] * 2,
-    #     'max_x': [100.0] * 2,
-    #     'function': schaffersf6,
-    # }
+    },
+    'F2': {
+        'accuracy': 0.0001,
+        'min_x': [-100.0] * DIMENSIONS,
+        'max_x': [100.0] * DIMENSIONS,
+        'function': f2,
+    },
+    'Griewank': {
+        'accuracy': 0.1,
+        'min_x': [-600.0] * DIMENSIONS,
+        'max_x': [600.0] * DIMENSIONS,
+        'function': griewank,
+    },
+    'Rastrigin': {
+        'accuracy': 30,
+        'min_x': [-5.12] * DIMENSIONS,
+        'max_x': [5.12] * DIMENSIONS,
+        'function': rastrigin,
+    },
+    'Rosenbrock': {
+        'accuracy': 30,
+        'min_x': [-2.048] * DIMENSIONS,
+        'max_x': [2.048] * DIMENSIONS,
+        'function': rosenbrock,
+    },
 }
 
-ITERATIONS = 1000
+ITERATIONS = 3000
 
 
 for k, v in PRESETS.items():
@@ -77,7 +53,7 @@ for k, v in PRESETS.items():
     fitness_list = []
     for i in range(50):
         _, g_best_fitness = \
-            Swarm(POPULATION, v['min_x'], v['max_x'], v['function'], C1, C2, W).run_iterations(ITERATIONS)
+            Swarm(POPULATION, v['min_x'], v['max_x'], v['function'], C1, C2, W).run_iterations(ITERATIONS, linear=True)
         fitness_list.append(g_best_fitness)
         print(i)
 
@@ -87,5 +63,5 @@ for k, v in PRESETS.items():
     print(f'\n{k}')
     print(f'Śr odchylenie : {deviation}')
     print(f'Śr najlepsze razwiazanie : {average}')
-    print(f'Procent znalezionych : {100 * len([x for x in fitness_list if x < v["accuracy"]]) / len(fitness_list)}%')
+    print(f'Procent znalezionych : {100 * len([x for x in fitness_list if abs(x) < v["accuracy"]]) / len(fitness_list)}%')
 

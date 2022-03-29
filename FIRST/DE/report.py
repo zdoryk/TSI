@@ -1,13 +1,12 @@
-import sys
-from DEvolution import DEvolution
-
 from fitness_functions import sphere, f2, rosenbrock, griewank, rastrigin, \
     brown, schwefel, zakharov, schaffersf6, np
+from matplotlib import pyplot as plt
+from DEvolution import DEvolution
 
 DIMENSIONS = 20
-POPULATION = 20
-F = 0.5
-CR = 0.5
+POPULATION = [30]
+f = 0.6
+cr = 0.6
 
 PRESETS = {
     'Sphere': {
@@ -40,40 +39,37 @@ PRESETS = {
         'max_x': [5.12] * DIMENSIONS,
         'function': rastrigin,
     },
-    'Brown': {
-        'accuracy': 0.001,
-        'min_x': [-1.0] * DIMENSIONS,
-        'max_x': [4.0] * DIMENSIONS,
-        'function': brown,
-    },
-    'Schwefel': {
-        'accuracy': 0.000001,
-        'min_x': [-1.0] * DIMENSIONS,
-        'max_x': [4.0] * DIMENSIONS,
-        'function': schwefel,
-    },
-    'Zakharov': {
-        'accuracy': 0.001,
-        'min_x': [-10.0] * DIMENSIONS,
-        'max_x': [10.0] * DIMENSIONS,
-        'function': zakharov,
-    },
-    "Schaffer'sf6": {
-        'accuracy': 0.00001,
-        'min_x': [-100.0] * 2,
-        'max_x': [100.0] * 2,
-        'function': schaffersf6,
-    }
 }
 
-ITERATIONS = 350
+ITERATIONS = 500
+
+for pop in POPULATION:
+    for k, v in PRESETS.items():
+        L_G_best_fitness_iterations, U_G_best_fitness_iterations = [1000, 1000]
+        while L_G_best_fitness_iterations > v['accuracy'] or U_G_best_fitness_iterations > v['accuracy']:
+            L_G_best_fitness_iterations, linear_fitness_list = \
+                DEvolution(pop, v['min_x'], v['max_x'], v['function'], f=f, cr=cr).run_iterations(ITERATIONS, linear=True)
+            U_G_best_fitness_iterations, usual_fitness_list = \
+                DEvolution(pop, v['min_x'], v['max_x'], v['function'], f=f, cr=cr).run_iterations(ITERATIONS)
+
+        print(k, v['accuracy'])
+        print(f'Linear: {L_G_best_fitness_iterations}')
+        print(f'Usual: {U_G_best_fitness_iterations}')
+
+        fig, (ax1, ax2) = plt.subplots(2, 1, constrained_layout=True)
+        ax1.plot(np.arange(50, ITERATIONS), linear_fitness_list[51:])
+        ax1.set_title(f'Linear')
+        ax1.set_xlabel('Iterations')
+        ax1.set_ylabel('Best fitness value')
+
+        ax2.plot(np.arange(50, ITERATIONS), usual_fitness_list[51:])
+        ax2.set_title(f'Usual')
+        ax2.set_xlabel('Iterations')
+        ax2.set_ylabel('Best fitness value')
+
+        fig.suptitle(f'{k}', fontsize=16)
+        plt.savefig(f'plots/f_06_cr_06/{k}_{pop}-Line{L_G_best_fitness_iterations}-Usual{U_G_best_fitness_iterations}.png')
+        # plt.show()
+        # np.savetxt(f'results/{k}_PSO_RESULTS.csv', fitness_list, header=f'{k}', delimiter='\n')
 
 
-for k, v in PRESETS.items():
-    reloads = 0
-    G_best_fitness_reloads = sys.maxsize
-    best_counter = 0
-    _, fitness_list = \
-        DEvolution(POPULATION, v['min_x'], v['max_x'], v['function'], F, CR).run_iterations(ITERATIONS)
-
-    np.savetxt(f'results/{k}_DE_RESULTS.csv', fitness_list, header=f'{k}', delimiter='\n')

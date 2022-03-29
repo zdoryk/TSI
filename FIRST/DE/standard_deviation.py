@@ -40,30 +40,6 @@ PRESETS = {
         'max_x': [5.12] * DIMENSIONS,
         'function': rastrigin,
     },
-    'Brown': {
-        'accuracy': 0.001,
-        'min_x': [-1.0] * DIMENSIONS,
-        'max_x': [4.0] * DIMENSIONS,
-        'function': brown,
-    },
-    'Schwefel': {
-        'accuracy': 0.000001,
-        'min_x': [-1.0] * DIMENSIONS,
-        'max_x': [4.0] * DIMENSIONS,
-        'function': schwefel,
-    },
-    'Zakharov': {
-        'accuracy': 0.001,
-        'min_x': [-10.0] * DIMENSIONS,
-        'max_x': [10.0] * DIMENSIONS,
-        'function': zakharov,
-    },
-    "Schaffer'sf6": {
-        'accuracy': 0.00001,
-        'min_x': [-100.0] * 2,
-        'max_x': [100.0] * 2,
-        'function': schaffersf6,
-    }
 }
 
 ITERATIONS = 350

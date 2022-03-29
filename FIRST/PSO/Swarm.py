@@ -37,19 +37,21 @@ class Swarm:
                 self.G_best = p.get_p_best()
 
     # run this method if user has selected PSO by accuracy
-    def run_iterations(self, iterations, min_c=1.7, max_c=2.5, max_w=0.9, min_w=0.48, linear=False):
+    def run_iterations(self, iterations, max_c=3, max_w=0.9, min_w=0.48, linear=False):
         if linear:
             weights = np.flip(np.linspace(min_w, max_w, iterations))
-            c1 = np.linspace(min_c, max_c, iterations)
-            c2 = np.flip(c1)
+            c1 = np.linspace(1.494, max_c, iterations)
+            c2 = np.flip(np.linspace(2.5, max_c, iterations))
             for i in range(iterations):
                 self.w = weights[i]
                 self.c1 = c1[i]
                 self.c2 = c2[i]
                 self.__update_g_best()
+                self.fitness_list.append(self.fitness_function(self.G_best))
         else:
             for i in range(iterations):
                 self.__update_g_best()
+                self.fitness_list.append(self.fitness_function(self.G_best))
         return self.fitness_list, self.G_best_fitness
 
     # run this method if user has selected PSO by accuracy
@@ -69,4 +71,3 @@ class Swarm:
                 self.G_best = part.get_p_best()
                 # print('G:', self.G_best)
                 # print('G_F:', self.G_best_fitness)
-                self.fitness_list.append(self.fitness_function(self.G_best))
