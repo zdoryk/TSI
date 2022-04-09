@@ -23,7 +23,7 @@ class Herd:
         # Initializing Global best value
         self.G_best_nr = 0
         self.G_best = Bat.np.zeros(dimensions)
-        self.G_best_fitness = 10000000
+        self.G_best_fitness = 100000000
         self.init_g_best()
 
         self.fitness_list = []  # Log of every new Global best value
@@ -66,20 +66,25 @@ class Herd:
     def __update_g_best(self):
         for bat in self.bats:
             bat.update(self.G_best)
-            if np.random.uniform(0, 1) > bat.get_r_tempo():
-                new_position = self.__new_position(bat.X_positions)
+
+        loudness = self.__get_average_a_loudness()
+
+        for bat in self.bats:
+            if np.random.uniform(0, 1) >= bat.get_r_tempo():
+                new_position = self.__new_position(bat.X_positions, loudness)
                 new_fitness = self.__new_position_fitness(new_position)
 
-                if new_fitness < bat.get_best_fitness() and np.random.uniform(0, 1) < self.__get_average_a_loudness():
+                if new_fitness < self.G_best_fitness and np.random.uniform(0, 1) <= bat.get_a_loudness():
                     bat.update_a_r()
-                    bat.X_positions = new_position
-                    bat.best_fitness = new_fitness
+                    # bat.X_positions = new_position
+                    # bat.best_fitness = new_fitness
 
-            if bat.get_best_fitness() < self.G_best_fitness:
-                self.G_best_fitness = bat.get_best_fitness()
-                self.G_best = bat.X_positions
-                # print('G:', self.G_best)
-                print('G_F:', self.G_best_fitness)
+                # if bat.get_best_fitness() < self.G_best_fitness:
+                if new_fitness < self.G_best_fitness:
+                    self.G_best_fitness = new_fitness
+                    self.G_best = new_position
+                    # print('G:', self.G_best)
+                    print('G_F:', self.G_best_fitness)
 
     def __get_average_r_tempo(self):
         r_list = [r.get_r_tempo() for r in self.bats]
@@ -89,8 +94,8 @@ class Herd:
         a_list = [a.get_a_loudness() for a in self.bats]
         return sum(a_list) / len(a_list)
 
-    def __new_position(self, old_positions):
-        return old_positions + np.random.uniform(-1, 1) * self.__get_average_a_loudness()
+    def __new_position(self, old_positions, loudness):
+        return old_positions + np.random.uniform(-1, 1) * loudness
 
     def __new_position_fitness(self, position):
-        return abs(self.fitness_function(position))
+        return self.fitness_function(position)
