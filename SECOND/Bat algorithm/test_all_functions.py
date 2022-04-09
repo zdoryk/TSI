@@ -97,11 +97,13 @@ for k, v in PRESETS.items():
     best_counter = 0
     # _, G_best_fitness_iterations = Herd(population, v['min_x'], v['max_x'], v['function'], C1, C2, W).run_iterations(
     #     iterations)
-    _, G_best_fitness_accuracy, counter = Herd(population, min_x, max_x, f_min, f_max, dimensions, rastrigin, alpha, gamma).run_accuracy(accuracy, iterations)
+    _, G_best_fitness_accuracy, counter = Herd(population, v['min_x'], v['max_x'], f_min, f_max, v['dimensions'],
+                                               v['function'], alpha, gamma).run_accuracy(accuracy, iterations)
 
-    while G_best_fitness_accuracy > v['accuracy'] and reloads < 10:
+    while G_best_fitness_accuracy > v['accuracy'] and reloads < 5:
         reloads += 1
-        _, G_best_fitness_accuracy, counter = Herd(population, min_x, max_x, f_min, f_max, dimensions, rastrigin, alpha, gamma).run_accuracy(accuracy, iterations)
+        _, G_best_fitness_accuracy, counter = Herd(population, v['min_x'], v['max_x'], f_min, f_max, v['dimensions'],
+                                                   v['function'], alpha, gamma).run_accuracy(accuracy, iterations)
 
         if G_best_fitness_accuracy < G_best_fitness_reloads:
             G_best_fitness_reloads = G_best_fitness_accuracy
@@ -113,11 +115,12 @@ for k, v in PRESETS.items():
     to_txt += f'\n### Accuracy ###\n'
     if reloads:
         to_txt += f'Best_acc: {G_best_fitness_reloads}'
-        to_txt += f'\nRequire_acc: {accuracy}'
+        to_txt += f'\nRequire_acc: {v["accuracy"]}'
         to_txt += '\ncounter: ' + str(best_counter)
         to_txt += '\nreloads: ' + str(reloads)
     else:
-        to_txt += f'Best_pos: {G_best_fitness_accuracy}'
+        to_txt += f'Best_acc: {G_best_fitness_accuracy}'
+        to_txt += f'\nRequire_acc: {v["accuracy"]}'
         to_txt += '\ncounter: ' + str(counter)
     log_counter += 1
     print(f'{k}: Done [{log_counter}/{len(PRESETS)}]')

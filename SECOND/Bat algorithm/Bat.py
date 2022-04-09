@@ -61,11 +61,12 @@ class Bat:
     def update(self, G_best):
         self.__update_velocities(G_best)
         self.__update_positions()
-        # self.__update_frequency()
-        # self.update_fitness()
 
     def update_a_r(self):
         self.A_loudness = self.alpha * self.A_loudness
         self.r_tempo_i = self.r_tempo_0 * (1 - np.exp(-self.gamma * self.counter))
         self.counter += 1
+
+    def new_position_with_a(self, loudness):
+        self.X_positions = self.X_positions + np.random.uniform(-1, 1) * loudness
 
