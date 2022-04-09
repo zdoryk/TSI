@@ -67,7 +67,6 @@ class Herd:
         for i in range(len(self.bats)):
             self.bats[i].update(self.G_best)
             if self.bats[i].get_best_fitness() < self.G_best_fitness:
-                print('1')
                 self.G_best_fitness = self.bats[i].get_best_fitness()
                 self.G_best = self.bats[i].X_positions
                 self.G_best_nr = i

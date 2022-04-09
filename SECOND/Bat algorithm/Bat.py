@@ -45,7 +45,7 @@ class Bat:
     def __update_positions(self):
         self.X_positions = np.clip(self.X_positions + self.V_velocities, self.min_position, self.max_position)
 
-    def __update_fitness(self):
+    def update_fitness(self):
         if self.fitness(self.X_positions) < self.best_fitness:
             self.best_fitness = self.fitness(self.X_positions)
 
@@ -62,7 +62,7 @@ class Bat:
         self.__update_velocities(G_best)
         self.__update_positions()
         # self.__update_frequency()
-        # self.__update_fitness()
+        # self.update_fitness()
 
     def update_a_r(self):
         self.A_loudness = self.alpha * self.A_loudness

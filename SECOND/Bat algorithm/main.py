@@ -38,10 +38,45 @@ PRESETS = {
         'dimensions': 20,
         'function': rastrigin,
     },
+    'Ackley': {
+        'accuracy': 0.0001,
+        'min_x': -32.0,
+        'max_x': 32.0,
+        'dimensions': 20,
+        'function': ackley,
+    },
+    'Easom': {
+        'accuracy': 0.000001,
+        'min_x': -10.0,
+        'max_x': 10.0,
+        'dimensions': 2,
+        'function': easom,
+    },
+    'Brown': {
+        'accuracy': 0.001,
+        'min_x': -1.0,
+        'max_x': 4.0,
+        'dimensions': 20,
+        'function': brown,
+    },
+    'Schwefel': {
+        'accuracy': 0.000001,
+        'min_x': -1.0,
+        'max_x': 4.0,
+        'dimensions': 20,
+        'function': schwefel,
+    },
+    'Zakharov': {
+        'accuracy': 0.001,
+        'min_x': -10.0,
+        'max_x': 10.0,
+        'dimensions': 20,
+        'function': zakharov,
+    },
 }
 
 # constrains
-function = 'Sphere'
+function = 'Easom'
 population = 20
 iterations = 5000
 dimensions = PRESETS[function]['dimensions']

@@ -32,7 +32,7 @@ class Herd:
     def init_g_best(self):
         for bat in self.bats:
             if bat.get_best_fitness() < self.G_best_fitness:
-                print(self.G_best_fitness)
+                # print(self.G_best_fitness)
                 self.G_best_fitness = bat.get_best_fitness()
                 self.G_best = bat.X_positions
 
@@ -71,20 +71,23 @@ class Herd:
 
         for bat in self.bats:
             if np.random.uniform(0, 1) >= bat.get_r_tempo():
-                new_position = self.__new_position(bat.X_positions, loudness)
-                new_fitness = self.__new_position_fitness(new_position)
+                # new_position = self.__new_position(bat.X_positions, loudness)
+                # new_fitness = self.__new_position_fitness(new_position)
 
-                if new_fitness < self.G_best_fitness and np.random.uniform(0, 1) <= bat.get_a_loudness():
+                bat.X_positions = self.__new_position(bat.X_positions, loudness)
+                bat.update_fitness()
+
+                if bat.get_best_fitness() < self.G_best_fitness and np.random.uniform(0, 1) <= bat.get_a_loudness():
                     bat.update_a_r()
                     # bat.X_positions = new_position
                     # bat.best_fitness = new_fitness
 
                 # if bat.get_best_fitness() < self.G_best_fitness:
-                if new_fitness < self.G_best_fitness:
-                    self.G_best_fitness = new_fitness
-                    self.G_best = new_position
+                if bat.get_best_fitness() < self.G_best_fitness:
+                    self.G_best_fitness = bat.get_best_fitness()
+                    self.G_best = bat.X_positions
                     # print('G:', self.G_best)
-                    print('G_F:', self.G_best_fitness)
+                    # print('G_F:', self.G_best_fitness)
 
     def __get_average_r_tempo(self):
         r_list = [r.get_r_tempo() for r in self.bats]
