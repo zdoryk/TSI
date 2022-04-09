@@ -10,8 +10,8 @@ class Herd:
         self.X_max_position = x_max
 
         # Initializing min and max velocities
-        self.V_max_velocity = (self.X_max_position - self.X_min_position) / 200
-        self.V_min_velocity = -(self.X_max_position - self.X_min_position) / 200
+        self.V_max_velocity = (self.X_max_position - self.X_min_position) / 2000
+        self.V_min_velocity = -(self.X_max_position - self.X_min_position) / 2000
 
         self.fitness_function = fitness_function
 
@@ -23,7 +23,7 @@ class Herd:
         # Initializing Global best value
         self.G_best_nr = 0
         self.G_best = Bat.np.zeros(dimensions)
-        self.G_best_fitness = float('Inf')
+        self.G_best_fitness = 10000000
         self.init_g_best()
 
         self.fitness_list = []  # Log of every new Global best value
@@ -32,8 +32,9 @@ class Herd:
     def init_g_best(self):
         for bat in self.bats:
             if bat.get_best_fitness() < self.G_best_fitness:
+                print(self.G_best_fitness)
                 self.G_best_fitness = bat.get_best_fitness()
-                self.G_best = bat.get_p_best()
+                self.G_best = bat.X_positions
 
     # run this method if user has selected PSO by accuracy
     # def run_iterations(self, iterations, max_c=3, max_w=0.9, min_w=0.48, linear=False):
@@ -66,8 +67,9 @@ class Herd:
         for i in range(len(self.bats)):
             self.bats[i].update(self.G_best)
             if self.bats[i].get_best_fitness() < self.G_best_fitness:
+                print('1')
                 self.G_best_fitness = self.bats[i].get_best_fitness()
-                self.G_best = self.bats[i].get_p_best()
+                self.G_best = self.bats[i].X_positions
                 self.G_best_nr = i
                 # print('G:', self.G_best)
                 print('G_F:', self.G_best_fitness)
@@ -103,4 +105,4 @@ class Herd:
         return old_positions + np.random.uniform(-1, 1) * self.__get_average_a_loudness()
 
     def __new_position_fitness(self, position):
-        return abs(self.fitness_function(position))
+        return self.fitness_function(position)

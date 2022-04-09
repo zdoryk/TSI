@@ -21,16 +21,16 @@ class Bat:
 
         self.X_positions = np.zeros(self.number_of_dimensions)
         self.V_velocities = np.zeros(self.number_of_dimensions)
-        self.P_best = np.zeros(self.number_of_dimensions)
+
         self.__init_position()
         self.__init_velocities()
+        self.__update_frequency()
 
         self.fitness = fitness_func
         self.best_fitness = fitness_func(self.X_positions)
 
     def __init_position(self):
         self.X_positions = np.random.uniform(self.min_position, self.max_position, self.number_of_dimensions)
-        self.P_best = self.X_positions
 
     def __init_velocities(self):
         self.V_velocities = np.random.uniform(self.min_velocity, self.max_velocity, self.number_of_dimensions)
@@ -53,10 +53,6 @@ class Bat:
     def __update_fitness(self):
         if self.fitness(self.X_positions) < self.best_fitness:
             self.best_fitness = self.fitness(self.X_positions)
-            self.P_best = self.X_positions
-
-    def get_p_best(self):
-        return self.P_best
 
     def get_r_tempo(self):
         return self.r_tempo_i
