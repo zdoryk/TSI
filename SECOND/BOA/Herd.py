@@ -18,7 +18,7 @@ class Herd:
                                                 self.dimensions, a, c) for i in range(self.population)]
 
         # Initializing Global best value
-        self.G_best = Butterfly.np.zeros(len(dimensions))
+        self.G_best = Butterfly.np.zeros(dimensions)
         self.G_best_fitness = float('Inf')
         self.init_g_best()
 
@@ -68,6 +68,7 @@ class Herd:
             if butterfly.get_best_fitness() < self.G_best_fitness:
                 self.G_best_fitness = butterfly.get_best_fitness()
                 self.G_best = butterfly.X_positions
+                print(f'G_best: {self.G_best_fitness}')
 
         for i in range(len(self.butterflies)):
             if np.random.uniform(0, 1) < self.p:
@@ -79,4 +80,4 @@ class Herd:
 
     def __choose_butterflies(self, i_butterfly_number):
         butterflies_numbers = [np.random.choice([i for i in range(self.population) if i not in [i_butterfly_number]]) for x in range(2)]
-        return [self.butterflies[butterfly] for butterfly in butterflies_numbers]
+        return [self.butterflies[butterfly].X_positions for butterfly in butterflies_numbers]

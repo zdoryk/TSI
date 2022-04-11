@@ -76,7 +76,7 @@ PRESETS = {
 }
 
 # constrains
-function = 'Easom'
+function = 'Sphere'
 population = 20
 iterations = 5000
 dimensions = PRESETS[function]['dimensions']
@@ -87,7 +87,7 @@ c = 0.5
 p = 0.5
 
 accuracy = PRESETS[function]['accuracy']
-herd = Herd(population, min_x, max_x, function, dimensions, a, c, p)
+herd = Herd(population, min_x, max_x, PRESETS[function]['function'], dimensions, a, c, p)
 
 # fit_list, best_pos = herd.run_iterations(iterations)
 # print('_'*40, '\n')
