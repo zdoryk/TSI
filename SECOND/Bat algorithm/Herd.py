@@ -36,25 +36,22 @@ class Herd:
                 self.G_best_fitness = bat.get_best_fitness()
                 self.G_best = bat.X_positions
 
-    # run this method if user has selected PSO by accuracy
-    # def run_iterations(self, iterations, max_c=3, max_w=0.9, min_w=0.48, linear=False):
-    #     if linear:
-    #         weights = np.flip(np.linspace(min_w, max_w, iterations))
-    #         c1 = np.linspace(1.494, max_c, iterations)
-    #         c2 = np.flip(np.linspace(2.5, max_c, iterations))
-    #         for i in range(iterations):
-    #             self.w = weights[i]
-    #             self.c1 = c1[i]
-    #             self.c2 = c2[i]
-    #             self.__update_g_best()
-    #             self.fitness_list.append(self.fitness_function(self.G_best))
-    #     else:
-    #         for i in range(iterations):
-    #             self.__update_g_best()
-    #             self.fitness_list.append(self.fitness_function(self.G_best))
-    #     return self.fitness_list, self.G_best_fitness
+    # run this method if user has selected BA by iterations
+    def run_iterations(self, iterations, linear=False):
+        if linear:
 
-    # run this method if user has selected PSO by accuracy
+            # Need to work on it
+
+            for i in range(iterations):
+                self.__update_g_best()
+                self.fitness_list.append(self.fitness_function(self.G_best))
+        else:
+            for i in range(iterations):
+                self.__update_g_best()
+                self.fitness_list.append(self.fitness_function(self.G_best))
+        return self.fitness_list, self.G_best_fitness
+
+    # run this method if user has selected BA by accuracy
     def run_accuracy(self, accuracy=0.0001, iterations=3000):
         counter = 0
         while self.G_best_fitness > accuracy and counter < iterations:

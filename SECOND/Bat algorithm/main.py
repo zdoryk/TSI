@@ -78,7 +78,7 @@ PRESETS = {
 # constrains
 function = 'Easom'
 population = 20
-iterations = 5000
+iterations = 300
 dimensions = PRESETS[function]['dimensions']
 min_x = PRESETS[function]['min_x']
 max_x = PRESETS[function]['max_x']
@@ -90,13 +90,13 @@ gamma = 0.5
 accuracy = PRESETS[function]['accuracy']
 herd = Herd(population, min_x, max_x, f_min, f_max, dimensions, rastrigin, alpha, gamma)
 
-# fit_list, best_pos = herd.run_iterations(iterations)
-# print('_'*40, '\n')
-# print(f'best_pos: {best_pos}')
-fit_list, best_pos, counter = herd.run_accuracy(accuracy, iterations)
+fit_list, best_pos = herd.run_iterations(iterations)
 print('_'*40, '\n')
-print('G_best:', best_pos)
-print('counter: ', counter)
+print(f'best_pos: {best_pos}')
+# fit_list, best_pos, counter = herd.run_accuracy(accuracy, iterations)
+# print('_'*40, '\n')
+# print('G_best:', best_pos)
+# print('counter: ', counter)
 
 # print('G_best:', sphere(best_pos))
 
