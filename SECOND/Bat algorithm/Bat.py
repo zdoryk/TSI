@@ -40,17 +40,12 @@ class Bat:
 
     def __update_velocities(self, G_best):
         self.V_velocities = self.V_velocities + self.frequency * (self.X_positions - G_best)
-        for i in range(self.number_of_dimensions):
-            self.V_velocities[i] = min(self.V_velocities[i], self.max_velocity)
-            self.V_velocities[i] = max(self.V_velocities[i], self.min_velocity)
+        self.V_velocities = np.clip(self.V_velocities, self.min_velocity, self.max_velocity)
 
     def __update_positions(self):
-        self.X_positions = self.X_positions + self.V_velocities
-        for i in range(self.number_of_dimensions):
-            self.X_positions[i] = min(self.X_positions[i], self.max_position)
-            self.X_positions[i] = max(self.X_positions[i], self.min_position)
+        self.X_positions = np.clip(self.X_positions + self.V_velocities, self.min_position, self.max_position)
 
-    def __update_fitness(self):
+    def update_fitness(self):
         if self.fitness(self.X_positions) < self.best_fitness:
             self.best_fitness = self.fitness(self.X_positions)
 
@@ -64,13 +59,14 @@ class Bat:
         return self.best_fitness
 
     def update(self, G_best):
-        self.__update_frequency()
         self.__update_velocities(G_best)
         self.__update_positions()
-        self.__update_fitness()
 
     def update_a_r(self):
         self.A_loudness = self.alpha * self.A_loudness
         self.r_tempo_i = self.r_tempo_0 * (1 - np.exp(-self.gamma * self.counter))
         self.counter += 1
+
+    def new_position_with_a(self, loudness):
+        self.X_positions = self.X_positions + np.random.uniform(-1, 1) * loudness
 
