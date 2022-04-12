@@ -77,13 +77,13 @@ PRESETS = {
 
 # constrains
 function = 'Sphere'
-population = 20
-iterations = 5000
+population = 50
+iterations = 100
 dimensions = PRESETS[function]['dimensions']
 min_x = PRESETS[function]['min_x']
 max_x = PRESETS[function]['max_x']
-a = 0.5
-c = 0.5
+a = [0.1, 0.3]
+c = 0.01
 p = 0.5
 
 accuracy = PRESETS[function]['accuracy']

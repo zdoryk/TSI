@@ -2,11 +2,10 @@ import numpy as np
 
 
 class Butterfly:
-    def __init__(self, min_x: [], max_x: [], fitness_func, dimensions, a, c):
+    def __init__(self, min_x: [], max_x: [], fitness_func, dimensions, c):
         self.min_position = min_x
         self.max_position = max_x
         self.number_of_dimensions = dimensions
-        self.a = a
         self.c = c
         self.fragrance = 0
 
@@ -30,8 +29,8 @@ class Butterfly:
     def get_best_fitness(self):
         return self.best_fitness
 
-    def update_fragrance(self):
-        self.fragrance = self.c * self.l ** self.a
+    def update_fragrance(self, a):
+        self.fragrance = self.c * self.l ** a
 
     def update_to_best(self, g_best):
         self.X_positions = np.clip(self.X_positions + (np.random.uniform(0, 1, self.number_of_dimensions) * g_best

@@ -12,10 +12,12 @@ class Herd:
         self.fitness_function = fitness_function
 
         self.p = p
+        self.a_min, self.a_max = a
+        self.a = []
 
         # Initializing population
         self.butterflies = [Butterfly.Butterfly(self.X_min_position, self.X_max_position, self.fitness_function,
-                                                self.dimensions, a, c) for i in range(self.population)]
+                                                self.dimensions, c) for i in range(self.population)]
 
         # Initializing Global best value
         self.G_best = Butterfly.np.zeros(dimensions)
@@ -34,27 +36,30 @@ class Herd:
 
     # run this method if user has selected PSO by accuracy
     def run_iterations(self, iterations, linear=False):
+        self.a = np.flip(np.linspace(self.a_min, self.a_max, iterations))
         if linear:
             print('Maybe in future')
         else:
             for i in range(iterations):
-                self.__update_g_best()
+                self.__update_g_best(i)
                 self.fitness_list.append(self.fitness_function(self.G_best))
         return self.fitness_list, self.G_best_fitness
 
     # run this method if user has selected PSO by accuracy
     def run_accuracy(self, accuracy=0.0001, iterations=3000):
         counter = 0
+        self.a = np.flip(np.linspace(self.a_min, self.a_max, iterations))
         while self.G_best_fitness > accuracy and counter < iterations:
-            self.__update_g_best()
+            self.__update_g_best(counter)
+            # self.a = np.delete(self.a, 0)
             counter += 1
         return self.fitness_list, self.G_best_fitness, counter
 
     # main method that update Global best value
-    def __update_g_best(self):
+    def __update_g_best(self, counter):
         for butterfly in self.butterflies:
             butterfly.update_fitness()
-            butterfly.update_fragrance()
+            butterfly.update_fragrance(self.a[counter])
 
         for butterfly in self.butterflies:
             if butterfly.get_best_fitness() < self.G_best_fitness:
