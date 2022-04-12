@@ -78,40 +78,35 @@ PRESETS = {
 }
 
 # constrains
-function = 'Easom'
 population = 20
 iterations = 5000
-dimensions = PRESETS[function]['dimensions']
-min_x = PRESETS[function]['min_x']
-max_x = PRESETS[function]['max_x']
 f_min = 0.00001
 f_max = 0.0001
 alpha = 0.75
 gamma = 0.5
-accuracy = PRESETS[function]['accuracy']
 
 
 for k, v in PRESETS.items():
     reloads = 0
     G_best_fitness_reloads = 10000000
     best_counter = 0
-    # _, G_best_fitness_iterations = Herd(population, v['min_x'], v['max_x'], v['function'], C1, C2, W).run_iterations(
-    #     iterations)
+    _, G_best_fitness_iterations = Herd(population, v['min_x'], v['max_x'], f_min, f_max, v['dimensions'],
+                                        v['function'], alpha, gamma).run_iterations(iterations)
     _, G_best_fitness_accuracy, counter = Herd(population, v['min_x'], v['max_x'], f_min, f_max, v['dimensions'],
-                                               v['function'], alpha, gamma).run_accuracy(accuracy, iterations)
+                                               v['function'], alpha, gamma).run_accuracy(v['accuracy'], iterations)
 
     while G_best_fitness_accuracy > v['accuracy'] and reloads < 5:
         reloads += 1
         _, G_best_fitness_accuracy, counter = Herd(population, v['min_x'], v['max_x'], f_min, f_max, v['dimensions'],
-                                                   v['function'], alpha, gamma).run_accuracy(accuracy, iterations)
+                                                   v['function'], alpha, gamma).run_accuracy(v['accuracy'], iterations)
 
         if G_best_fitness_accuracy < G_best_fitness_reloads:
             G_best_fitness_reloads = G_best_fitness_accuracy
             best_counter = counter
 
     to_txt += '\n\n' + '#' * 30 + f'\t{k}\t ' + '#' * 30 + '\n\n'
-    # to_txt += f'### Iter ###\nBest_pos: {G_best_fitness_iterations}'
-    # to_txt += '\nIterations: ' + str(iterations) + '\n'
+    to_txt += f'### Iter ###\nBest_pos: {G_best_fitness_iterations}'
+    to_txt += '\nIterations: ' + str(iterations) + '\n'
     to_txt += f'\n### Accuracy ###\n'
     if reloads:
         to_txt += f'Best_acc: {G_best_fitness_reloads}'
