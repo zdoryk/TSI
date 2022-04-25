@@ -36,7 +36,7 @@ class Herd:
 
     # run this method if user has selected PSO by accuracy
     def run_iterations(self, iterations, linear=False):
-        self.a = np.flip(np.linspace(self.a_min, self.a_max, iterations))
+        self.a = np.linspace(self.a_min, self.a_max, iterations)
         if linear:
             print('Maybe in future')
         else:
@@ -65,7 +65,7 @@ class Herd:
             if butterfly.get_best_fitness() < self.G_best_fitness:
                 self.G_best_fitness = butterfly.get_best_fitness()
                 self.G_best = butterfly.X_positions
-                print(f'G_best: {self.G_best_fitness}')
+                # print(f'G_best: {self.G_best_fitness}')
 
         for i in range(len(self.butterflies)):
             if np.random.uniform(0, 1) < self.p:

@@ -122,5 +122,5 @@ for k, v in PRESETS.items():
 
 print(to_txt)
 
-with open('BA_results.txt', 'w') as file:
-    file.write(to_txt)
+# with open('BA_results.txt', 'w') as file:
+#     file.write(to_txt)

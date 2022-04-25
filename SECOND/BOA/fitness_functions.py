@@ -33,7 +33,11 @@ def easom(x_positions):
 
 def brown(x_positions):
     return (((x_positions[:-1] ** 2) ** (x_positions[1::] ** 2 + 1)) + ((x_positions[1::] ** 2) ** (x_positions[:-1] ** 2 + 1))).sum()
-
+    # _sum = 0
+    # for i in range(len(x_positions) - 1):
+    #     _sum += (x_positions[i]**2)**(1 + (x_positions[i+1]) ** 2)
+    #     _sum += (x_positions[i+1] ** 2) ** (1 + (x_positions[i]) ** 2)
+    # return _sum
 
 def schwefel(x_positions):
     return ((np.absolute(x_positions))**2).sum() + np.prod(np.absolute(x_positions))
