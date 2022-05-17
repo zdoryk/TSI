@@ -39,9 +39,6 @@ class Herd:
     # run this method if user has selected BA by iterations
     def run_iterations(self, iterations, linear=False):
         if linear:
-
-            # Need to work on it
-
             for i in range(iterations):
                 self.__update_g_best()
                 self.fitness_list.append(self.fitness_function(self.G_best))
